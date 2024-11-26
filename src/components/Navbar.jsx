@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Container from "./Container";
 import Flex from "./Flex";
 import { HiMiniBars2 } from "react-icons/hi2";
@@ -11,12 +11,15 @@ import CartImg from "../assets/cartImg.jpeg";
 import { useDispatch, useSelector } from "react-redux";
 import { removeProduct } from "./slice/productSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { ApiData } from "./ContextApi";
 
 const Navbar = () => {
   let data = useSelector((state)=> state.product.cartItem)
+  let { info, loading } = useContext(ApiData);
   let dispatch = useDispatch()
   let navigate = useNavigate()
-  
+  let [search, setSearch] = useState("")
+  let [searchFilter, setSearchFilter] = useState([])
   let cateRef = useRef();
   let accRef = useRef();
   let cartRef = useRef();
@@ -59,6 +62,12 @@ const Navbar = () => {
     setIsCart(false)
   }
 
+  let handleChange = (e) =>{
+    setSearch(e.target.value);
+    let searchOneByOne = info.filter((item)=>item.title.toLowerCase().includes(e.target.value.toLowerCase()))
+    setSearchFilter(searchOneByOne)
+  }
+
   return (
     <section className="bg-[#F5F5F3] py-[25px]">
       <Container>
@@ -95,7 +104,7 @@ const Navbar = () => {
           </div>
           <div className="w-1/2">
             <div className="relative">
-              <input
+              <input onChange={handleChange}
                 type="search"
                 className="py-3 pl-2 w-full rounded-sm  outline-none"
                 placeholder="Search.."
