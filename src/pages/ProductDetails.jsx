@@ -28,7 +28,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     getSingleProduct();
-  }, []);
+  }, [productId]);
 
   let clientRating = Array.from({ length: 5 }, (_, index) => {
     let number = index + 0.5;

@@ -14,6 +14,8 @@ const Shop = () => {
   let [perPage, setPerPage] = useState(6);
   let [activeGrid, setActiveGrid] = useState("");
   let [category, setCategory] = useState([]);
+  let [brand, setBrand] = useState([]);
+  let [brandShow, setBrandShow] = useState([]);
   let [low, setLow] = useState("")
   let [high, setHigh] = useState("")
   let [priceShow, setPriceShow] = useState([])
@@ -54,6 +56,7 @@ const Shop = () => {
 
   useEffect(() => {
     setCategory([...new Set(info.map((item) => item.category))]);
+    setBrand([...new Set(info.map((item) => item.brand))]);
   }, [info]);
 
   let handleCategory = (citem) => {
@@ -68,7 +71,7 @@ const Shop = () => {
   let handleAll = () =>{
     setCategoryFilter("")
   }
-
+  
 
     let handlePrice = (value) =>{
       setLow(value.low);
@@ -79,6 +82,12 @@ const Shop = () => {
       }else{
         setCategoryFilter("")
       }
+    }
+
+
+    let handleBrand =(bitem)=>{
+      let brandFilter = info.filter((item)=> item.brand == bitem)
+      setCategoryFilter(brandFilter)
     }
 
   
@@ -123,6 +132,15 @@ const Shop = () => {
               <ul>
                 <li onClick={()=>handlePrice({low:0, high:10})}>$0 - $09</li>
                 <li onClick={()=>handlePrice({low:10, high:19})}>$10 - $19</li>
+              </ul>
+            </div>
+            <div className="">
+              <h2>Brand</h2>
+              <ul>
+                {brand.map((item)=>(
+
+                <li onClick={()=>handleBrand(item)}>{item}</li>
+                ))}
               </ul>
             </div>
           </div>
@@ -181,7 +199,7 @@ const Shop = () => {
               <Post
                 allPage={allPage}
                 activeGrid={activeGrid}
-                categoryFilter={categoryFilter}
+                categoryFilter={categoryFilter && categoryFilter}
                 priceShow={priceShow}
               />
               <div className="py-10 flex justify-center w-full">

@@ -64,8 +64,19 @@ const Navbar = () => {
 
   let handleChange = (e) =>{
     setSearch(e.target.value);
-    let searchOneByOne = info.filter((item)=>item.title.toLowerCase().includes(e.target.value.toLowerCase()))
-    setSearchFilter(searchOneByOne)
+    if(e.target.value == ""){
+      setSearchFilter([])
+    }else{
+      let searchOneByOne = info.filter((item)=>item.title.toLowerCase().includes(e.target.value.toLowerCase()))
+      setSearchFilter(searchOneByOne)
+     
+    }
+  }
+
+  let handleSearchId = (id) =>{
+    navigate(`/shop/${id}`)
+    setSearchFilter([])
+    setSearch("")
   }
 
   return (
@@ -108,8 +119,36 @@ const Navbar = () => {
                 type="search"
                 className="py-3 pl-2 w-full rounded-sm  outline-none"
                 placeholder="Search.."
+                value={search}
               />
               <ImSearch className="absolute top-[50%] translate-y-[-50%] right-4" />
+              {searchFilter.length > 0 &&
+              <div className="absolute left-0 top-[40px] mt-2 w-[460px] h-[400px] overflow-y-scroll bg-[rgba(233,230,230,0.9)] z-[1]">
+                  {searchFilter.map((item, i)=>(
+                  <div onClick={()=>handleSearchId(item.id)}>
+                  <div className="flex items-center bg-white py-4 px-5">
+                    <div>
+                      <img
+                        className="w-[80px] md:w-[150px]"
+                        src={item.thumbnail}
+                        alt="Cart item"
+                      />
+                    </div>
+                    <div className="flex-grow">
+                      <div className="font-DM font-bold text-[14px] ml-3">
+                        <h3>{item.title}</h3>
+                      </div>
+                    
+                    </div>
+                    
+                  </div>
+                  
+                  </div>
+                  ))}
+                
+                </div>
+}
+          
             </div>
           </div>
           <div className="w-1/4">

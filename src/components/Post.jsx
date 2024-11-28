@@ -7,12 +7,13 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "./slice/productSlice";
 
-const Post = ({ allPage, activeGrid, categoryFilter,priceShow }) => {
+const Post = ({ allPage, activeGrid, categoryFilter,brandShow }) => {
   let { info, loading } = useContext(ApiData);
   let [filterShow, setFilterShow] = useState([]);
   let [count, setCount] = useState(true);
   let dispatch = useDispatch()
 
+  console.log(brandShow);
   
   
 
@@ -41,7 +42,7 @@ const Post = ({ allPage, activeGrid, categoryFilter,priceShow }) => {
         <>
           <div className="flex flex-wrap">
             {filterShow.map((item) => (
-              <div className="w-[32%]">
+              <div>
                 <div className="">
                   <div className="relative group overflow-hidden">
                     <Link to={`/shop/${item.id}`}>
